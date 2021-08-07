@@ -38,12 +38,10 @@ func writeFile(name string, amount int, in *bufio.Reader) {
 	f.Write(b)
 }
 
-var file string
 var ip string
 var port string
 
 func main() {
-	flag.StringVar(&file, "f", "", "Path to the file you want to send")
 	flag.StringVar(&ip, "ip", "localhost", "Ip adress of the server")
 	flag.StringVar(&port, "p", "5000", "Port of the server")
 	flag.Parse()
