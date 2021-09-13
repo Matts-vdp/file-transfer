@@ -1,8 +1,7 @@
-package main
+package client
 
 import (
 	"bufio"
-	"flag"
 	"fmt"
 	"net"
 	"os"
@@ -38,13 +37,7 @@ func writeFile(name string, amount int, in *bufio.Reader) {
 	f.Write(b)
 }
 
-var ip string
-var port string
-
-func main() {
-	flag.StringVar(&ip, "ip", "localhost", "Ip adress of the server")
-	flag.StringVar(&port, "p", "5000", "Port of the server")
-	flag.Parse()
+func StartClient(ip, port string) {
 	conn, err := net.Dial("tcp", ip+":"+port)
 	if err != nil {
 		fmt.Println("connection setup failed")

@@ -1,11 +1,11 @@
-package main
+package server
 
 import (
 	"bufio"
-	"flag"
 	"fmt"
 	"net"
 	"os"
+	"path/filepath"
 	"strconv"
 )
 
@@ -18,7 +18,8 @@ The comminication happens in 3 steps
 */
 func handleConnection(conn net.Conn, file string) {
 	out := bufio.NewWriter(conn)
-	out.WriteString(file + ";")
+	fname := filepath.Base(file)
+	out.WriteString(fname + ";")
 	out.Flush()
 	f, err := os.ReadFile(file)
 	if err != nil {
@@ -36,18 +37,9 @@ func askFilename() string {
 	return str
 }
 
-var file string
-var ip string
-var port string
-
-func main() {
-	flag.StringVar(&file, "f", "", "Path to the file you want to send")
-	flag.StringVar(&ip, "ip", "localhost", "Ip adress of the server")
-	flag.StringVar(&port, "p", "5000", "Port of the server")
-	flag.Parse()
+func StartServer(ip, port, file string) {
 	if file == "" {
 		file = askFilename()
-		return
 	}
 	ln, err := net.Listen("tcp", ip+":"+port)
 	if err != nil {
